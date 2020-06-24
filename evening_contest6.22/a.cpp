@@ -25,17 +25,11 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	set<int>t;
+	rep(i,3){
+		int k; cin>>k;
+		t.insert(k);
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
-	}
-	cout<<ans<<endl;
+	cout<<t.size()<<endl;
 	return 0;
 }

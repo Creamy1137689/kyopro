@@ -25,17 +25,23 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	ll N; cin>>N;
+	map<ll,ll> cnt;
+	ll ans = 0;
+	rep(i,N){
+		ll t; cin>>t;
+		cnt[t] ++;
+		ans += t;
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
+	ll Q; cin>>Q;
+	vector<pair<ll, ll>> query(Q);
+	rep(i,Q)cin>>query[i].first>>query[i].second;
+	rep(i,Q){
+		ll kazu = cnt[query[i].first];
+		cnt[query[i].first] = 0;
+		cnt[query[i].second] += kazu;
+		ans += (query[i].second-query[i].first)*kazu;
+		cout<<ans<<endl;
 	}
-	cout<<ans<<endl;
 	return 0;
 }

@@ -25,17 +25,14 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	int N ; cin>>N;
+	vector<int> H(N);
+	rep(i,N)cin>>H[i];
+	bool ok = true;
+	for(int i = N-1; i>0; --i){
+		if(H[i-1]-H[i] > 1){ok = false; break;}
+		if(H[i-1]-H[i] == 1)H[i-1]--;
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
-	}
-	cout<<ans<<endl;
+	cout<<((ok)?"Yes":"No")<<endl;
 	return 0;
 }

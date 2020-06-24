@@ -25,17 +25,8 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
-	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
-	}
-	cout<<ans<<endl;
+	vector<ll> A(5);
+	rep(i,5)cin>>A[i];
+	rep(i,5)if(A[i] == 0){cout<<i+1<<endl;break;}
 	return 0;
 }

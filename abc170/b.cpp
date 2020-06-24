@@ -25,17 +25,14 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	int x,y;
+	cin>>x>>y;
+	int kame = 0;
+	for(; kame <= x; ++kame){
+		if(4*kame + 2*(x-kame) == y){
+			cout<<"Yes"<<endl; return 0;
+		}
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
-	}
-	cout<<ans<<endl;
+	cout<<"No"<<endl;
 	return 0;
 }

@@ -24,18 +24,35 @@ const int inf = 1001001000;
 const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
+ll rep_power_modM(ll a, ll n, ll M = MOD){
+    if(n == 0)return 1;
+    if(n%2 == 0){ll tmp = rep_power_modM(a,n/2,M); return tmp*tmp%M;}
+    return a*rep_power_modM(a,n-1,M)%M;
+}
+
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	int K; cin>>K;
+	string s; cin>>s;
+	int cnt = 0;
+	rep(i,s.size()-1){
+		if(s[i] != s[i+1])cnt++;
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
+	ll ans = 1;
+	ans *= 25 * 25;
+	ans *= rep_power_modM(26, cnt) %MOD;
+	ans %= MOD;
+	int cnt2 = cnt;
+	rep(i,K-1){
+		cnt += 2;
+		cnt2 += 3;
+		ans += rep_power_modM(26, cnt2)%MOD;
+		ans %=MOD;
+		ans += rep_power_modM(26, cnt)%MOD;
+		ans %=MOD;
+		ans *= 625;
+		ans %=MOD;
 	}
+	ans %= MOD;
 	cout<<ans<<endl;
 	return 0;
 }

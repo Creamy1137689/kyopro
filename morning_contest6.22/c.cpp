@@ -25,16 +25,29 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	int N; cin>>N;
+	vector<int> isl(N);
+	int sum = 0;
+	rep(i,N){
+		cin>>isl[i];
+		sum += isl[i];
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
+	if(sum%N != 0){
+		cout<<-1<<endl;
+		return 0;
+	}
+	int ans = 0;
+	int now_pep = 0;
+	int now_isl = 0;
+	rep(i,N){
+		now_pep += isl[i];
+		++now_isl;
+		if(now_pep%now_isl == 0 && now_pep/now_isl == sum/N){
+			now_pep = 0;
+			now_isl = 0;
+			continue;
+		}
+		++ans;
 	}
 	cout<<ans<<endl;
 	return 0;

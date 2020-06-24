@@ -25,17 +25,31 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	ll H,W;
+	cin>>H>>W;
+	ll ans = INF;
+	if(H*W % 3 == 0){
+		ans = 0;
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
+	if(H*W % 2 == 0){
+		ll a = 100000000, b = 100000000;
+		if(H%2 == 0)a = H/2;
+		if(W%2 == 0)b = W/2;
+		ans = min({a,b,ans});
 	}
+	if((H-2) %3 == 0 && H >2){
+		ans = min(ans, W);
+	}
+	if((W-2) %3 == 0 && W > 2){
+		ans = min(ans, H);
+	}
+	ll lw = W/2+1;
+	ll lh = H/2+1;
+	ll sw = W/2;
+	ll sh = H/2;
+	ll B = lw*sh;
+	ll C = sw*lh;
+	ans = min(ans, sw*sh-abs(B-C));
 	cout<<ans<<endl;
 	return 0;
 }

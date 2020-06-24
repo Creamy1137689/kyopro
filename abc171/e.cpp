@@ -25,17 +25,37 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	int N; cin>>N;
+	vector<int> A(N);
+	vector<int> ans(N,0);
+	int nax = 0;
+	rep(i,N){
+		cin>>A[i];
+		nax = max(nax, A[i]);
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
+	for(int bit = 0; pow(2,bit-1)<nax; ++bit){
+		int cnt = 0;
+		vector<bool> is(N,false);
+		rep(i,N){
+			if(A[i] & (1<<bit)){
+				cnt++;
+				is[i] = true;
+			}
+		}
+		if(cnt%2 == 0){
+			rep(i,N){
+				if(is[i]){
+					ans[i] += pow(2,bit);
+				}
+			}
+		}else{
+			rep(i,N){
+				if(!is[i]){
+					ans[i] += pow(2,bit);
+				}
+			}
+		}
 	}
-	cout<<ans<<endl;
+	show(ans);
 	return 0;
 }

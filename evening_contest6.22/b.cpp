@@ -25,17 +25,15 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	int N; cin>>N;
+	vector<int> B(N-1);
+	rep(i,N-1)cin>>B[i];
+	int ans = 0;
+	ans += B[0];
+	for(int i = 1; i<N-1; ++i){
+		ans += min(B[i], B[i-1]);
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
-	}
+	ans += B[N-2];
 	cout<<ans<<endl;
 	return 0;
 }

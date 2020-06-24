@@ -25,16 +25,25 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	int x,N; cin>>x>>N;
+	vector<bool> R(1000,true);
+	int t;
+	rep(i,N){
+		cin>>t;
+		R[t+500] = false;
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
+	int md = inf;
+	int dif;
+	int ans;
+	rep(i,1000){
+		if(R[i] == true){
+			t = i-500;
+			dif = abs(t-x);
+			if(dif < md){
+				md = dif;
+				ans = t;
+			}
+		}
 	}
 	cout<<ans<<endl;
 	return 0;

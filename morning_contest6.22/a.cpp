@@ -25,17 +25,19 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	int m; cin>>m;
+	int ans = 0;
+	if(m<100){
+		ans = 0;
+	}else if(m <= 5000){
+		ans = m/100;
+	}else if(m <= 30000){
+		ans = 50+m/1000;
+	}else if(m <= 70000){
+		ans = (m/1000-30)/5 + 80;
+	}else {
+		ans = 89;
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
-	}
-	cout<<ans<<endl;
+	printf("%02d\n",ans);
 	return 0;
 }

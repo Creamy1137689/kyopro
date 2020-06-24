@@ -25,17 +25,15 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	int a,b;cin>>a>>b;
+	if(a == 1)a = 14;
+	if(b == 1)b = 14;
+	if(a>b){
+		cout<<"Alice"<<endl;
+	}else if(a == b){
+		cout<<"Draw"<<endl;
+	}else{
+		cout<<"Bob"<<endl;
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
-	}
-	cout<<ans<<endl;
 	return 0;
 }

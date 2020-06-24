@@ -25,16 +25,33 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	string sa,sb,sc;
+	cin>>sa>>sb>>sc;
+	vector<queue<int>> player(3);
+	rep(i,sa.size()){
+		int t = sa[i]-'a';
+		player[0].push(t);
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
+	rep(i,sb.size()){
+		int t = sb[i]-'a';
+		player[1].push(t);
+	}
+	rep(i,sc.size()){
+		int t = sc[i]-'a';
+		player[2].push(t);
+	}
+	bool can = true;
+	int p_num = 0;
+	char ans;
+	while(can){
+		if(player[p_num].empty()){
+			ans = (char)('A'+p_num);
+			can = false;
+		}
+		// cout<<(char)('A'+p_num)<<endl;
+		int nt = player[p_num].front();
+		player[p_num].pop();
+		p_num = nt;
 	}
 	cout<<ans<<endl;
 	return 0;

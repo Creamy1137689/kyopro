@@ -25,17 +25,36 @@ const ll INF = 1LL<<60;
 const ll MOD = 1e9 + 7;
 
 int main(){
-	string s;
-	cin>>s;
-	ll ans = s.size()*(s.size()-1)/2+1;
-	map<char,ll> cha;
-	rep(i,s.size()){
-		cha[s[i]]++;
+	ll N; cin>>N;
+	int len = 0;
+	for(; pow(26,len) <= N; ++len){
+		N -= pow(26,len);
 	}
-	for(auto x: cha){
-		ll t = x.second;
-		ans -= t*(t-1)/2;
+	vector<int> v(len,0);
+	int cnt = 0;
+	while(N>0){
+		int x = N%26;
+		// if(x == 0)x = 25;
+		N /= 26;
+		v[cnt++] = x;
 	}
-	cout<<ans<<endl;
+	reverse(all(v));
+	rep(i,len){cout<<(char)('a'+v[i]);}
+	cout<<endl;
 	return 0;
 }
+
+// int main(){
+// 	ll N; cin>>N;
+// 	string ans;
+// 	while(N>0){
+// 		int x = N%26;
+// 		if(x == 0)x = 26;
+// 		char t = 'a' + (x-1);
+// 		N /= 26;
+// 		printf("[%lld... %d]\n", N, x);
+// 	}
+// 	reverse(all(ans));
+// 	cout<<ans<<endl;
+// 	return 0;
+// }
