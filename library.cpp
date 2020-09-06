@@ -112,11 +112,24 @@ ll rep_power_modM(ll a, ll n, ll M = MOD){
 }
 
 //組み合わせ……n個の中からr個選ぶ "rep_power_modM" 使用
-ll comb_modM(ll n, ll r, ll M = MOD){
-    ll ans = 1; rep(i,r){ans *= (n-i)%M; ans%=M;}
-    ll divisor = 1; rep(i,r){divisor *= (i+1)%MOD; divisor %=M;}
-    ans = ans * rep_power_modM(divisor,M-2,M)%M; if(ans<0)ans+=M;
-    return ans;
+const int MAX = 510000;
+long long fac[MAX], finv[MAX], inv[MAX];
+
+void COMinit() {
+    fac[0] = fac[1] = 1;
+    finv[0] = finv[1] = 1;
+    inv[1] = 1;
+    for (int i = 2; i < MAX; i++){
+        fac[i] = fac[i - 1] * i % MOD;
+        inv[i] = MOD - inv[MOD%i] * (MOD / i) % MOD;
+        finv[i] = finv[i - 1] * inv[i] % MOD;
+    }
+}
+
+long long COM(int n, int k){
+    if (n < k) return 0;
+    if (n < 0 || k < 0) return 0;
+    return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
 }
 
 // 数値微分…fnは微分したい関数, xは座標, hは微小値(デフォルトで10^-9)
@@ -127,16 +140,30 @@ template<class Fn> long double differentiate(Fn fn, long double x, long double h
 }
 
 // 素因数分解…nを素因数分解した結果をmap<ll, ll>で返す
-map<ll, ll> prime_factor(ll n){
-    map<ll,ll> com;
-    for(ll i = 2LL; i*i<=n; ++i){
-        while(n%i==0LL){
-            com[i]++;
-            n /= i;
-        }
-    }
-    if(n != 1LL)com[n]++;
-    return com;
+// 計算量はO(logN)
+// 使用する前にinit_min_primefactorを実行
+int PRIMES_MAX = 10000000;
+vector<int> min_primefactor(PRIMES_MAX, inf);
+
+void init_min_primefactor(){
+	min_primefactor[0] = 0;
+	min_primefactor[1] = 1;
+	for(int i = 2; i < PRIMES_MAX; ++i){
+		if(min_primefactor[i] == inf){
+			for(int k = 1; i * k < PRIMES_MAX; ++k){
+				min_primefactor[i * k] = i;
+			}
+		}
+	}
+}
+
+map<int,int> prime_factor(int N){
+	map<int, int> res;
+	while(N > 1){
+		res[min_primefactor[N]]++;
+		N /= min_primefactor[N];
+	}
+	return res;
 }
 
 // 素数判定
@@ -153,6 +180,22 @@ void enumerate_prime(vector<bool> &a){
     for(int i = 2; i*i<=a.size(); ++i){
         if(a[i]){ for(int j = 2; i*j<=a.size()-1; ++j){ a[i*j] = false; }}
     }
+}
+
+/*------------------------------
+| 幾何系 Geometry              |
+------------------------------*/
+// is cross
+double f(P x, P y, P z){
+	return (y.second - x.second)*(z.first - x.first) - (y.first - x.first)*(z.second - x.second);
+}
+
+bool is_cross(P x, P y, P z, P w){
+	double t1 = f(x, y, z);
+	double t2 = f(x, y, w);
+	double t3 = f(z, w, x);
+	double t4 = f(z, w, y);
+	return (t1*t2 <= 0 && t3*t4 <= 0);
 }
 
 /*------------------------------
@@ -180,13 +223,11 @@ int binary_search(int a[], int nax, int key){
 | Graph Algolythm              |
 ------------------------------*/
 
-
-vector<vector<int>> G(200100, vector<int>()); 
-
-//UnweightedTree
+//.............UnweightedTree............//
 //To find Diameter, use this func two times 
 //argument -> [Vertex_Size, Start_Node]
 //return   -> [Furthest_Node, Furthest_Distance]
+vector<vector<int>> G(200100, vector<int>()); 
 P tree_diameter(int V, int st){
 	int t = st;
 	int diameter = 0;
@@ -212,6 +253,29 @@ P tree_diameter(int V, int st){
 }
 
 
+//........WeightedGraph.................//
+//Dijkstra法による最短経路
+//グラフは[to, cost]の重み付きグラフ
+vector<vector<P>> wG(1010, vector<P>());
+
+void dijkstra(int start, vector<int> &dist){
+	priority_queue<P, vector<P>, greater<P>> Q;
+	Q.emplace(0, start);
+	dist[start] = 0;
+	while(!Q.empty()){
+		int cost = Q.top().first;
+		int f = Q.top().second;
+		Q.pop();
+		if(cost > dist[f])continue;
+		for(auto t:wG[f]){
+			if(dist[t.first] > cost + t.second){
+				dist[t.first] = cost + t.second;
+				Q.emplace(dist[t.first], t.first);
+			}
+		}
+	}
+}
+
 /*------------------------------
 | DP                           |
 ------------------------------*/
@@ -221,6 +285,52 @@ template<class T> inline bool chmin(T& a, T b) {if (a > b) { a = b; return true;
 
 //aとbのうち大きい値をaとして採用する
 template<class T> inline bool chmax(T& a, T b) {if (a < b) { a = b; return true; } return false;}
+
+//LCS(Longest Common Subsequence)
+//復元
+string lcs(string a, string b){
+	vector<vector<int>> dp(a.size()+1, vector<int>(b.size()+1, 0));
+	vector<vector<P>> transition(a.size()+1, vector<P>(b.size()+1));
+	REP(i,a.size()){
+		REP(j,b.size()){
+			if(a[i-1] == b[j-1]){
+				dp[i][j] = dp[i-1][j-1]+1;
+				transition[i][j] = make_pair(i-1, j-1);
+			}else{
+				if(chmax(dp[i][j], dp[i-1][j]))transition[i][j] = make_pair(i-1, j);
+				if(chmax(dp[i][j], dp[i][j-1]))transition[i][j] = make_pair(i, j-1);
+			}
+		}
+	}
+	string res;
+	int i = a.size(), j = b.size();
+	while(true){
+		if(i == 0 || j == 0)break;
+		if(a[i-1] == b[j-1])res.push_back(a[i-1]);
+		P from = transition[i][j];
+		i = from.first;
+		j = from.second;
+	}
+	reverse(all(res));
+	return res;
+}
+
+//length
+int lcs_len(string a, string b){
+	vector<vector<int>> dp(a.size()+1, vector<int>(b.size()+1, 0));
+	REP(i,a.size()){
+		REP(j,b.size()){
+			if(a[i-1] == b[j-1]){
+				dp[i][j] = dp[i-1][j-1]+1;
+			}else{
+				chmax(dp[i][j], dp[i-1][j]);
+				chmax(dp[i][j], dp[i][j-1]);
+			}
+		}
+	}
+	return dp[a.size()][b.size()];
+}
+
 
 /*------------------------------
 | UnionFind木の実装           |
