@@ -26,20 +26,18 @@ const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
 int main(){
-    int n;
-    ll a, b;
-    cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+    int cnt = 0;
+    for(ll i = 1; ; ++i){
+        for(ll j = 1; j < i; ++j){
+            ll a = i*i - j*j;
+            ll b = 2*i*j;
+            ll c = i*i + j*j;
+            if(a > b)swap(a, b);
+            if(gcd(gcd(a, b), c) == 1){cout << a << ' ' << b << ' ' << c << endl; ++cnt;}
+            if(cnt == 4){
+                return 0;
+            }
+        }
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
     return 0;
- }
+}

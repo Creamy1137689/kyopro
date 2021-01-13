@@ -25,21 +25,31 @@ const int inf = 1001001000;
 const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
-int main(){
+void solve(){
     int n;
-    ll a, b;
     cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
-    }
-    sort(all(v), greater<ll>());
+    vector<int> in(n);
+    vector<int> ans(n);
+    rep(i, n)cin >> in[i];
+    const int check_max = 40;
     rep(i, n){
-        if(i % 2 == 0)fir += v[i];
+        ll a = 1;
+        rep(j, check_max){
+            if((in[i]+1)/2 <= a && a <=in[i]){
+                ans[i] = a;
+                break;
+            }
+            a *= 2;
+        }
     }
-    cout << fir << endl;
+    show(ans);
+}
+
+int main(){
+    int t;
+    cin >> t;
+    while(t-- > 0){
+        solve();
+    }
     return 0;
- }
+}

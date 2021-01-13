@@ -26,20 +26,6 @@ const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
 int main(){
-    int n;
-    ll a, b;
-    cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
-    }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
+    cout << pow(2, 17) << endl;
     return 0;
- }
+}

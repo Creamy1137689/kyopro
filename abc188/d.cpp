@@ -11,7 +11,9 @@
 #include <stack>
 #include <string>
 #include <algorithm>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 
 #define rep(i,n) for(int i = 0; i<n; ++i)
 #define REP(i,n) for(int i = 1; i<=n; ++i)
@@ -26,20 +28,25 @@ const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
 int main(){
-    int n;
-    ll a, b;
-    cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
+    ll n, c;
+    cin >> n >> c;
+    vector<lp> sche;
+    map<ll, ll> dat;
     rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+        ll a, b, cost;
+        cin >> a >> b >> cost;
+        dat[a] += cost;
+        dat[b+1] -= cost;
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
+    for(auto x:dat){
+        sche.push_back(make_pair(x.first, x.second));
     }
-    cout << fir << endl;
+    ll ans = 0;
+    ll nc = sche[0].second;
+    rep(i, sche.size()-1){
+        ans += min(nc, c) * (sche[i+1].first - sche[i].first);
+        nc += sche[i+1].second;
+    }
+    cout << ans << endl;
     return 0;
- }
+}

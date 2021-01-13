@@ -25,21 +25,37 @@ const int inf = 1001001000;
 const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
+int solve(){
+    int n;
+    cin >> n;
+    vector<int> v(n);
+    rep(i,n)cin >> v[i];
+    vector<int> al(2*n);
+    vector<int> no;
+    rep(i,2*n)al[i] = i+1;
+    set_difference(all(al), all(v), inserter(no, no.end()));
+    int er = 2*n;
+    while(v[v.size() -1] == er){
+        v.pop_back();
+        --er;
+    }
+    int ans = 1;
+    for(int i = v.size()-1; i >= 0; --i){
+        if(v[i] != i+1){
+            if(no.back() > v[i]){
+                ++ans;
+                no.pop_back();
+            }
+        }
+    }
+    return ans;
+}
+
 int main(){
     int n;
-    ll a, b;
     cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+    while(n-- > 0){
+        cout << solve() << endl;
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
     return 0;
- }
+}

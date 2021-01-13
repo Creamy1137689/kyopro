@@ -25,21 +25,25 @@ const int inf = 1001001000;
 const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
+bool com(lp a, lp b){
+    return a.first*2 + a.second > b.first*2 + b.second;
+}
+
 int main(){
     int n;
-    ll a, b;
     cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+    vector<lp> vot(n);
+    rep(i,n)cin >> vot[i].first >> vot[i].second;
+    sort(all(vot), com);
+    ll aoki_sum = 0;
+    rep(i,n)aoki_sum += vot[i].first;
+    ll tak_sum = 0;
+    int pos = 0;
+    while(tak_sum <= aoki_sum){
+        tak_sum += vot[pos].first + vot[pos].second;
+        aoki_sum -= vot[pos].first;
+        ++pos;
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
+    cout << pos << endl;
     return 0;
- }
+}

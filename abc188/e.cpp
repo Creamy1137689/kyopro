@@ -26,20 +26,25 @@ const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
 int main(){
-    int n;
-    ll a, b;
-    cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
+    int n, m;
+    int x, y;
+    cin >> n >> m;
+    vector<ll> a(n);
+    rep(i,n)cin >> a[i];
+    vector<vector<int>> G(n, vector<int>());
+    rep(i,m){
+        cin >> x >> y;
+        --x; --y;
+        G[x].push_back(y);
+    }
+    vector<ll> mins(n, INF);
     rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+        for(auto x:G[i]){
+            mins[x] = min({mins[x], mins[i], a[i]});
+        }
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
+    ll ans = -INF;
+    rep(i,n)ans = max(ans, a[i] - mins[i]);
+    cout << ans << endl;
     return 0;
- }
+}

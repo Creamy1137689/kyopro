@@ -27,19 +27,19 @@ const int MOD = (int)1e9 + 7;
 
 int main(){
     int n;
-    ll a, b;
     cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
+    map<string, int> ch;
     rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+        int k;
+        cin >> k;
+        rep(j, k){
+            string s;
+            cin >> s;
+            ch[s] ++;
+        }
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
+    int ans = 0;
+    for(auto x:ch)if(x.second == n)++ans;
+    cout << ans << endl;
     return 0;
- }
+}

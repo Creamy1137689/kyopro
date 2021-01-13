@@ -26,20 +26,15 @@ const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
 int main(){
-    int n;
-    ll a, b;
-    cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
-    }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
+    ll n, k;
+    cin >> n >> k;
+    if(k <= n)
+        cout << k*k*k << endl;
+    else if(k <= 2*n)
+        cout << k*k*k - 3*(k-n)*(k-n)*(k-n) << endl;
+    else if(k <= 3*n)
+        cout << 6*n*n*n - (3*n-k)*(3*n-k)*(3*n-k) << endl;
+    else
+        cout << 6*n*n*n << endl;
     return 0;
- }
+}

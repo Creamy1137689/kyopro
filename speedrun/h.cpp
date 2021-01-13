@@ -25,21 +25,37 @@ const int inf = 1001001000;
 const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
+string conv(ll a){
+    string res;
+    while(a > 0){
+        if(a% 2 == 1)res.push_back('1');
+        else res.push_back('0');
+        a /= 2;
+    }
+    while(res.size() < 64){
+        res.push_back('0');
+    }
+    reverse(all(res));
+    return res;
+}
+
+string solve(){
+    ll a, b, c;
+    cin >> a >> b >> c;
+    string sa = conv(a), sb = conv(b), sc = conv(c);
+    bool res = true;
+    rep(i, sa.size()){
+        if(sa[i] == '0' && sb[i] == '1')res = false;
+        if(sa[i] == '0' && sc[i] == '1')res = false;
+    }
+    return (res ? "Yes" : "No");
+}
+
 int main(){
-    int n;
-    ll a, b;
-    cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+    int t;
+    cin >> t;
+    while(t-- > 0){
+        cout << solve() << endl;
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
     return 0;
- }
+}

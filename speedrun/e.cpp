@@ -26,20 +26,11 @@ const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
 int main(){
-    int n;
-    ll a, b;
-    cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
-    }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
+    ll x, y;
+    cin >> x >> y;
+    if(x == 0 && y == 0)cout << 1 << ' ' << 1 << endl;
+    else if(x > y)cout << x << ' ' << x*2 + y << endl;
+    else if(x < y)cout << x + y*2 << ' ' << y << endl;
+    else cout << -1 << endl;
     return 0;
- }
+}

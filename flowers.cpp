@@ -11,6 +11,8 @@
 #include <stack>
 #include <string>
 #include <algorithm>
+#include <atcoder/all>
+using namespace atcoder;
 using namespace std;
 
 #define rep(i,n) for(int i = 0; i<n; ++i)
@@ -25,21 +27,23 @@ const int inf = 1001001000;
 const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
+ll op(ll a, ll b){return max(a, b);}
+ll e(){return 0;}
+
 int main(){
     int n;
-    ll a, b;
     cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
+    vector<ll> h(n), a(n), heights(n);
+    rep(i,n)cin >> h[i];
+    rep(i,n)cin >> a[i];
+    segtree<ll, op, e> seg(n);
+    heights = h;
+    sort(all(heights));
     rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+        int ub = upper_bound(all(heights), h[i]) - heights.begin();
+        ll now = a[i] + seg.prod(0, ub);
+        seg.set(ub-1, now);
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
+    cout << seg.all_prod() << endl;
     return 0;
- }
+}

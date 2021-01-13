@@ -25,21 +25,36 @@ const int inf = 1001001000;
 const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
+ll x, y;
+
+map<ll, ll> costs;
+ll A,D;
+
+ll solve(ll N){
+	if(N == 0)return abs(x);
+        if(N == x)return 0;
+	if(costs.count(N) != 0)return costs[N];
+	ll res = INF;
+	if(N < INF/D)res = abs(N-x)*D;
+
+	//div2
+	{
+		ll to = N/2*2;
+		ll tou = to + 2;
+		res = min(res, solve(to/2)+ A + abs(N-to)*D);
+		if(tou/2 < N)res = min(res, solve(tou/2) + A + abs(N-tou)*D);
+	}
+
+	return costs[N] = res;
+}
+
 int main(){
-    int n;
-    ll a, b;
-    cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+    cin >> x >> y;
+    if(x >= y){
+        cout << x-y << endl;
+        return 0;
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
+    A = 1; D = 1;
+    cout << solve(y) << endl;
     return 0;
- }
+}

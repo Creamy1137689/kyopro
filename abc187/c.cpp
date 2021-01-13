@@ -27,19 +27,25 @@ const int MOD = (int)1e9 + 7;
 
 int main(){
     int n;
-    ll a, b;
     cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
+    vector<string> ss(n);
+    rep(i,n)cin >> ss[i];
+    map<string, P> ch;
     rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+        string s = ss[i];
+        if(s[0] == '!'){
+            string t = s.substr(1, s.size()-1);
+            ch[t].first = inf;
+        }else{
+            ch[s].second = inf;
+        }
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
+    for(auto x:ch){
+        if(x.second.first == inf && x.second.second == inf){
+            cout << x.first << endl;
+            return 0;
+        }
     }
-    cout << fir << endl;
+    cout << "satisfiable" << endl;
     return 0;
- }
+}

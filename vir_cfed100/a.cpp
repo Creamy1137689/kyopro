@@ -25,21 +25,22 @@ const int inf = 1001001000;
 const ll INF = 1LL<<60;
 const int MOD = (int)1e9 + 7;
 
+string solve(){
+    int a, b, c;
+    cin >> a >> b >> c;
+    int t = (a + b + c);
+    if(t % 3 != 0)return "no";
+    t /= 3;
+    int lay = min({a, b, c});
+    if(t % 3 == 0 && t/3 <= lay)return "yes";
+    else return "no";
+}
+
 int main(){
-    int n;
-    ll a, b;
-    cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+    int t;
+    cin >> t;
+    while(t -- > 0){
+        cout << solve() << endl;
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
-    }
-    cout << fir << endl;
     return 0;
- }
+}

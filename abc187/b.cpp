@@ -27,19 +27,15 @@ const int MOD = (int)1e9 + 7;
 
 int main(){
     int n;
-    ll a, b;
     cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
-    rep(i,n){
-        cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
-    }
-    sort(all(v), greater<ll>());
+    vector<P> p(n);
+    rep(i,n)cin >> p[i].first >> p[i].second;
+    int ans = 0;
     rep(i, n){
-        if(i % 2 == 0)fir += v[i];
+        for(int j = i + 1; j < n; ++j){
+            if(abs(p[i].first - p[j].first) >= abs(p[i].second - p[j].second))++ans;
+        }
     }
-    cout << fir << endl;
+    cout << ans << endl;
     return 0;
- }
+}

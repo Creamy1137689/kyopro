@@ -11,7 +11,9 @@
 #include <stack>
 #include <string>
 #include <algorithm>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 
 #define rep(i,n) for(int i = 0; i<n; ++i)
 #define REP(i,n) for(int i = 1; i<=n; ++i)
@@ -27,19 +29,29 @@ const int MOD = (int)1e9 + 7;
 
 int main(){
     int n;
-    ll a, b;
     cin >> n;
-    vector<ll> v(n);
-    ll fir = 0;
+    dsu uf(400010);
+    vector<P> input(n);
     rep(i,n){
+        int a,b;
         cin >> a >> b;
-        v[i] = a + b;
-        fir -= b;
+        uf.merge(a, b);
+        input[i] = make_pair(a, b);
     }
-    sort(all(v), greater<ll>());
-    rep(i, n){
-        if(i % 2 == 0)fir += v[i];
+    map<int, int> cnt;
+    rep(i,n){
+        int f = uf.merge(input[i].first, input[i].second);
+        cnt[f] ++;
     }
-    cout << fir << endl;
+    set<int> al;
+    int ans = 0;
+    rep(i,n){
+        int f = uf.leader(input[i].first);
+        if(al.count(f) == 0){
+            ans += min(cnt[f], uf.size(f));
+            al.insert(f);
+        }
+    }
+    cout << ans << endl;
     return 0;
- }
+}
