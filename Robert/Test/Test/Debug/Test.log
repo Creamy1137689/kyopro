@@ -1,2 +1,0 @@
-﻿  Hello.cpp
-y:\c++\robert\test\test\hello.cpp(7): fatal error C1010: プリコンパイル ヘッダーを検索中に不明な EOF が見つかりました。'#include "pch.h"' をソースに追加しましたか?
