@@ -1,0 +1,18 @@
+﻿  Hallo.cpp
+y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(10): error C2131: 式は定数に評価されませんでした
+  y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(10): note: 期限切れの変数の読み取りによってエラーが発生しました
+  y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(10): note: 'n' の使用量を参照してください
+y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(12): warning C4552: '>>': 式の結果が使用されていません
+y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(20): error C2131: 式は定数に評価されませんでした
+  y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(20): note: 期限切れの変数の読み取りによってエラーが発生しました
+  y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(20): note: 'n' の使用量を参照してください
+y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(24): error C3863: 配列型 'int [n*]' を割り当てることはできません。
+y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(31): error C2131: 式は定数に評価されませんでした
+  y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(31): note: 期限切れの変数の読み取りによってエラーが発生しました
+  y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(31): note: 'n' の使用量を参照してください
+y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(37): error C3863: 配列型 'int [n*]' を割り当てることはできません。
+y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(41): error C2131: 式は定数に評価されませんでした
+  y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(41): note: 期限切れの変数の読み取りによってエラーが発生しました
+  y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(41): note: 'n' の使用量を参照してください
+y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(43): error C3863: 配列型 'int [n-]' を割り当てることはできません。
+y:\c++\robert\consoleapplication1\consoleapplication1\hallo.cpp(52): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
