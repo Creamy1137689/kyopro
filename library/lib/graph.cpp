@@ -53,3 +53,49 @@ void topological_sort(int s, vector<int> &sorted, vector<bool> &visited, vector<
     }
     sorted.push_back(s);
 }
+
+
+
+//橋検出
+//Detect Bridge
+//橋……なくなると全体が非連結になる辺
+//O(E + V)
+template <typename G>
+struct LowLink {
+    const G &g;
+    vector<int>ord, low, vis;
+    vector<int> articulation;
+    vector<P> bridge;
+
+    LowLink(const G& _g) : g(_g){
+        vis.assign(g.size(), 0);
+        ord.assign(g.size(), 0);
+        low.assign(g.size(), 0);
+        int k = 0;
+        for(int i = 0; i < (int)g.size(); ++i){
+            if(!vis[i]) k = dfs(i, k, -1);
+        }
+    }
+
+    int dfs(int v, int k, int par){
+        vis[v] = 1;
+        ord[v] = k++;
+        low[v] = ord[v];
+        bool isaps = false;
+        int ch = 0;
+        for(auto u:g[v]){
+            if(!vis[u]){
+                ++ch;
+                k = dfs(u, k, v);
+                low[v] = min(low[v], low[u]);
+                if(par != -1 && ord[v] <= low[u]) isaps = true;
+                if(ord[v] < low[u])bridge.emplace_back(min(v, u), max(v, u));
+            }else if(u != par){
+                low[v] = min(low[v], ord[u]);
+            }
+        }
+        if(par == -1 && ch > 1) isaps = true;
+        if(isaps) articulation.emplace_back(v);
+        return k;
+    }
+};
